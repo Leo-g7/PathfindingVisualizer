@@ -14,5 +14,23 @@
 .node {
   display: flex;
   flex: 1;
-  border: 1px solid rgb(175, 216, 248);
+  outline: 1px solid rgb(175, 216, 248);
+}
+
+.dragg {
+  cursor: grab;
+}
+
+.startNode {
+  background-image: url(../assets/triangletwo-right.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.targetNode {
+  background-image: url(../assets/circle.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
