@@ -34,3 +34,7 @@
   background-repeat: no-repeat;
   background-size: contain;
 }
+
+.wall {
+  background-color: rgb(12, 53, 71);
+}

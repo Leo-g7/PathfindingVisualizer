@@ -12,21 +12,33 @@ const GridComponent: FunctionComponent = () => {
   const [draggedNode, setDraggedNode] = useState<Node | null>(null);
 
   const handleMouseDown = (node: Node) => {
-    if ((node.type === NodeType.start || node.type === NodeType.target) && !draggedNode)
-      setDraggedNode(node);
+    if (!draggedNode) {
+      if (node.type === NodeType.start || node.type === NodeType.target) {
+        setDraggedNode(node);
+      } else if (node.type === NodeType.empty || node.type === NodeType.wall) {
+        grid.updateWall(node);
+        setDraggedNode(node);
+      }
+    }
   };
 
   const handleMouseEnter = (node: Node) => {
-    if (draggedNode && node.type === NodeType.empty) {
+    if (
+      (draggedNode?.type === NodeType.start || draggedNode?.type === NodeType.target) &&
+      node?.type === NodeType.empty
+    ) {
       grid.moveNode(draggedNode, node);
+      setDraggedNode(node);
+    } else if (
+      (draggedNode?.type === NodeType.empty || draggedNode?.type === NodeType.wall) &&
+      (node?.type === NodeType.empty || node?.type === NodeType.wall)
+    ) {
+      grid.updateWall(node);
       setDraggedNode(node);
     }
   };
 
-  const handleMouseUp = (node: Node) => {
-    if (draggedNode && node.type === NodeType.empty) {
-      grid.moveNode(draggedNode, node);
-    }
+  const handleMouseUp = () => {
     setDraggedNode(null);
   };
 
@@ -44,12 +56,14 @@ const GridComponent: FunctionComponent = () => {
                       ? 'startNode'
                       : node.type === NodeType.target
                       ? 'targetNode'
+                      : node.type === NodeType.wall
+                      ? 'wall'
                       : '')
                   }
                   key={nodeIndex}
                   onMouseDown={() => handleMouseDown(node)}
                   onMouseEnter={() => handleMouseEnter(node)}
-                  onMouseUp={() => handleMouseUp(node)}
+                  onMouseUp={() => handleMouseUp()}
                 />
               );
             })}

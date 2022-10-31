@@ -34,6 +34,13 @@ export default class Grid {
     this.body[movingNode.y][movingNode.x].type = NodeType.empty
   }
 
+  public updateWall(node: Node): void {
+    if (node.type === NodeType.empty)
+      this.body[node.y][node.x].type = NodeType.wall
+    else if (node.type === NodeType.wall)
+      this.body[node.y][node.x].type = NodeType.empty
+  }
+
   public get(): Node[][] {
     return this.body
   }
